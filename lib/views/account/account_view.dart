@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../controller/auth_controller.dart';
+import '../admin/main_admin.dart';
 
 class AccountView extends StatelessWidget {
   const AccountView({super.key});
@@ -38,7 +39,8 @@ class AccountView extends StatelessWidget {
       final location = user.address != null
           ? '${user.address!.city ?? '-'}, ${user.address!.country ?? '-'}'
           : '-';
-      final roles = user.roles.isNotEmpty ? user.roles.join(', ') : 'Customer';
+        final roles = user.roles.isNotEmpty ? user.roles.join(', ') : 'Customer';
+        final rolesUpper = user.roles.map((r) => r.toUpperCase()).toList();
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -130,6 +132,20 @@ class AccountView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
+            if (rolesUpper.contains('ADMIN') || rolesUpper.contains('MERCHANT')) ...[
+              ElevatedButton.icon(
+                onPressed: () {
+                  Get.to(() => const AdminMain());
+                },
+                icon: const Icon(Icons.admin_panel_settings),
+                label: const Text('Admin Panel'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  backgroundColor: Colors.blueGrey,
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
             ElevatedButton.icon(
               onPressed: () async {
                 await authController.logout();

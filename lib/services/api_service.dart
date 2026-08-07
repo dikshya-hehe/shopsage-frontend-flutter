@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import '../constants/app_constants.dart';
+import '../models/order_by_merchant_model.dart';
 import '../models/order_model.dart';
 import '../models/product_model.dart';
 import '../models/user_model.dart';
@@ -110,6 +112,17 @@ class ApiService {
     }
   }
 
+  Future<List<UserModel>> getAllUsers({Map<String, dynamic>? sort}) async {
+    final response = await _dio.get('/api/users', queryParameters: {
+      'sort': jsonEncode(sort ?? {'name': 1}),
+    });
+    if (response.statusCode == 200) {
+      final data = response.data as List;
+      return data.map((e) => UserModel.fromJson(e as Map<String, dynamic>)).toList();
+    }
+    throw Exception('Failed to load users');
+  }
+
   String _getErrorMessage(DioException error, {required String defaultMessage}) {
     if (error.response?.data != null) {
       final responseData = error.response!.data;
@@ -138,6 +151,105 @@ class ApiService {
       return OrderModel.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (error) {
       final message = _getErrorMessage(error, defaultMessage: 'Unable to place order');
+      throw Exception(message);
+    }
+  }
+
+  // Admin / Merchant endpoints
+  Future<List<OrderModel>> getAllOrders() async {
+    final response = await _dio.get('/api/orders');
+    if (response.statusCode == 200) {
+      final data = response.data as List;
+      return data.map((e) => OrderModel.fromJson(e as Map<String, dynamic>)).toList();
+    }
+    throw Exception('Failed to load orders');
+  }
+
+  Future<List<OrderByMerchantModel>> getMerchantOrders() async {
+    final response = await _dio.get('/api/orders/merchant');
+    if (response.statusCode == 200) {
+      final data = response.data as List;
+      return data.map((e) => OrderByMerchantModel.fromJson(e as Map<String, dynamic>)).toList();
+    }
+    throw Exception('Failed to load merchant orders');
+  }
+
+  Future<OrderModel> updateOrderStatus(String orderId, String status) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/status', data: {'status': status});
+      return OrderModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to update order status');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderByMerchantModel> updateMerchantOrderStatus(String orderId, String status) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/status', data: {'status': status});
+      return OrderByMerchantModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to update merchant order status');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderByMerchantModel> confirmMerchantOrder(String orderId, String status) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/confirm', data: {'status': status});
+      return OrderByMerchantModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to confirm merchant order');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderByMerchantModel> cancelMerchantOrder(String orderId, String status) async {
+    try {
+      final response = await _dio.patch('/api/orders/$orderId/cancel', data: {'status': status});
+      return OrderByMerchantModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to cancel merchant order');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderByMerchantModel> payMerchantOrderViaCash(String orderId) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/payment/cash');
+      return OrderByMerchantModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Cash payment failed');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderByMerchantModel> payMerchantOrderViaKhalti(String orderId) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/payment/khalti');
+      return OrderByMerchantModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Khalti payment failed');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderModel> confirmOrder(String orderId, String status) async {
+    try {
+      final response = await _dio.put('/api/orders/$orderId/confirm', data: {'status': status});
+      return OrderModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to confirm order');
+      throw Exception(message);
+    }
+  }
+
+  Future<OrderModel> cancelOrder(String orderId, String status) async {
+    try {
+      final response = await _dio.patch('/api/orders/$orderId/cancel', data: {'status': status});
+      return OrderModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      final message = _getErrorMessage(error, defaultMessage: 'Failed to cancel order');
       throw Exception(message);
     }
   }
