@@ -137,7 +137,7 @@ class AdminApplicationQueue extends StatelessWidget {
 
                           decoration: BoxDecoration(
                             color: app["status"] == "Approved"
-                                ? Colors.green.shade100
+                                ? Colors.blue.shade100
                                 : app["status"] == "Rejected"
                                 ? Colors.red.shade100
                                 : Colors.orange.shade100,
@@ -164,7 +164,7 @@ class AdminApplicationQueue extends StatelessWidget {
                             IconButton(
                               icon: const Icon(
                                 Icons.check_circle,
-                                color: Colors.green,
+                                color: Colors.blue,
                               ),
 
                               onPressed: () {},

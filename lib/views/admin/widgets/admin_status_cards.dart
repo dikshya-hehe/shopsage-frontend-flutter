@@ -29,7 +29,7 @@ class AdminStatusCards extends StatelessWidget {
                 child: StatusCard(
                   title: 'Approved',
                   count: '45',
-                  color: Colors.green,
+                  color: Colors.blue,
                   icon: Icons.check_circle,
                 ),
               ),
@@ -87,7 +87,7 @@ class StatusCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: color.withOpacity(0.15),
+            backgroundColor: color.withValues(alpha: 0.15),
             child: Icon(
               icon,
               color: color,

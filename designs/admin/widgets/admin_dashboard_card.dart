@@ -27,7 +27,7 @@ class AdminDashboardCards extends StatelessWidget {
             title: "Active Vendors",
             value: "85",
             icon: Icons.store,
-            color: Colors.green,
+            color: Colors.blue,
           ),
 
           SizedBox(width: 20),

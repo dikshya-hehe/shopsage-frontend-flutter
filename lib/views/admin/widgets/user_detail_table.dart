@@ -78,9 +78,10 @@ class _UserDetailTableState extends State<UserDetailTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LayoutBuilder(
             builder: (context, constraints) {
@@ -275,94 +276,98 @@ class _UserDetailTableState extends State<UserDetailTable> {
             },
           ),
           const SizedBox(height: 25),
-          Expanded(
+          SizedBox(
+            width: double.infinity,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                headingRowColor: MaterialStateProperty.all(Colors.grey.shade200),
-                columns: const [
-                  DataColumn(
-                    label: Text(
-                      "User",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Email",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Role",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Join Date",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Status",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      "Actions",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-                rows: filteredUsers.map((user) {
-                  final role = user.roles.isNotEmpty ? user.roles.first : 'Customer';
-                  final status = (user.isActive ?? false) ? 'Active' : 'Inactive';
-                  return DataRow(
-                    cells: [
-                      DataCell(
-                        Text(
-                          user.name ?? '-',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 860),
+                child: DataTable(
+                  headingRowColor: WidgetStateProperty.all(Colors.grey.shade200),
+                  columns: const [
+                    DataColumn(
+                      label: Text(
+                        "User",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      DataCell(Text(user.email ?? '-')),
-                      DataCell(Chip(label: Text(displayRole(role)))),
-                      DataCell(Text(user.createdAt != null ? '${user.createdAt!.year}-${user.createdAt!.month.toString().padLeft(2, '0')}-${user.createdAt!.day.toString().padLeft(2, '0')}' : '-')),
-                      DataCell(
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(
-                            color: status == "Active" ? Colors.green.shade100 : Colors.red.shade100,
-                            borderRadius: BorderRadius.circular(15),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Email",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Role",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Join Date",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Status",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Actions",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                  rows: filteredUsers.map((user) {
+                    final role = user.roles.isNotEmpty ? user.roles.first : 'Customer';
+                    final status = (user.isActive ?? false) ? 'Active' : 'Inactive';
+                    return DataRow(
+                      cells: [
+                        DataCell(
+                          Text(
+                            user.name ?? '-',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          child: Text(status),
                         ),
-                      ),
-                      DataCell(
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.visibility),
-                              onPressed: () {},
+                        DataCell(Text(user.email ?? '-')),
+                        DataCell(Chip(label: Text(displayRole(role)))),
+                        DataCell(Text(user.createdAt != null ? '${user.createdAt!.year}-${user.createdAt!.month.toString().padLeft(2, '0')}-${user.createdAt!.day.toString().padLeft(2, '0')}' : '-')),
+                        DataCell(
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: status == "Active" ? Colors.blue.shade100 : Colors.red.shade100,
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {},
-                            ),
-                          ],
+                            child: Text(status),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.visibility),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ),

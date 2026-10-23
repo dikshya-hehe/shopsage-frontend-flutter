@@ -41,6 +41,34 @@ class UserModel {
         );
     }
 
+    UserModel copyWith({
+        Address? address,
+        String? id,
+        String? name,
+        String? email,
+        String? password,
+        String? phone,
+        DateTime? createdAt,
+        bool? isActive,
+        List<String>? roles,
+        String? profileImageUrl,
+        int? v,
+    }) {
+        return UserModel(
+            address: address ?? this.address,
+            id: id ?? this.id,
+            name: name ?? this.name,
+            email: email ?? this.email,
+            password: password ?? this.password,
+            phone: phone ?? this.phone,
+            createdAt: createdAt ?? this.createdAt,
+            isActive: isActive ?? this.isActive,
+            roles: roles ?? this.roles,
+            profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+            v: v ?? this.v,
+        );
+    }
+
 }
 
 class Address {

@@ -57,7 +57,7 @@ class AdminApplicationQueue extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columnSpacing: 30,
-                headingRowColor: MaterialStateProperty.all(Colors.grey.shade100),
+                headingRowColor: WidgetStateProperty.all(Colors.grey.shade100),
                 columns: const [
                   DataColumn(
                     label: Text(
@@ -108,7 +108,7 @@ class AdminApplicationQueue extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: app["status"] == "Approved"
-                                ? Colors.green.shade100
+                                ? Colors.blue.shade100
                                 : app["status"] == "Rejected"
                                     ? Colors.red.shade100
                                     : Colors.orange.shade100,
@@ -130,7 +130,7 @@ class AdminApplicationQueue extends StatelessWidget {
                             IconButton(
                               icon: const Icon(
                                 Icons.check_circle,
-                                color: Colors.green,
+                                color: Colors.blue,
                               ),
                               onPressed: () {},
                             ),

@@ -29,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
     {'name': 'Fashion', 'icon': Icons.checkroom, 'color': Colors.pink},
     {'name': 'Beauty', 'icon': Icons.face, 'color': Colors.purple},
     {'name': 'Home & Kitchen', 'icon': Icons.home, 'color': Colors.orange},
-    {'name': 'Sports', 'icon': Icons.sports_basketball, 'color': Colors.green},
+    {'name': 'Sports', 'icon': Icons.sports_basketball, 'color': Colors.blue},
     {'name': 'Books', 'icon': Icons.menu_book, 'color': Colors.brown},
   ];
 

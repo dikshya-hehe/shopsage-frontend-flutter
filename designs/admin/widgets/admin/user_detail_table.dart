@@ -244,7 +244,7 @@ class _UserDetailTableState extends State<UserDetailTable> {
 
                           decoration: BoxDecoration(
                             color: user["status"] == "Active"
-                                ? Colors.green.shade100
+                                ? Colors.blue.shade100
                                 : Colors.red.shade100,
 
                             borderRadius: BorderRadius.circular(15),
